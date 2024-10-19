@@ -1,28 +1,39 @@
-﻿using HarmonyLib;
-using System.Timers;
+using HarmonyLib;
+using UnityEngine;
+using static System.Reflection.BindingFlags;
 
 namespace Eca.DawnOfSalem
 {
-    //[HarmonyPatch(typeof(BigGameSceneUIController))]
+    [HarmonyPatch(typeof(BigGameSceneUIController))]
     internal class PanelsHider
     {
         [HarmonyPatch("HandleServerOnFirstDayTransition")]
         [HarmonyPostfix]
         private static void HandleServerOnFirstDayTransition(BigGameSceneUIController __instance)
         {
-            __instance.HideRoleCard();
-            __instance.HideRoleList();
-            Timer timer = new Timer()
+            GamePanelDrawer roleCardDrawer = __instance.RoleCardDrawer;
+            typeof(GamePanelDrawer).GetField("shown", Instance | Public | NonPublic).SetValue(roleCardDrawer, false);
+            ((RectTransform)typeof(GamePanelDrawer).GetField("rectTransform", Instance | Public | NonPublic).GetValue(roleCardDrawer)).anchoredPosition = (Vector2)typeof(GamePanelDrawer).GetField("closedPosition", Instance | Public | NonPublic).GetValue(roleCardDrawer);
+            __instance.RoleCardMaximizeTab.SetActive(true);
+            if (GlobalServiceLocator.UserService.Settings.AutoexpandEnabled)
             {
-                AutoReset = false,
-                Interval = __instance.GraveyardRoleListDualDrawer.SlideTime * 1000
-            };
-            timer.Elapsed += delegate
+                VerticalPanelSizer targetMenuVerticalSizer = __instance.TargetMenuVerticalSizer;
+                typeof(VerticalPanelSizer).GetField("isExpanded_", Instance | Public | NonPublic).SetValue(targetMenuVerticalSizer, true);
+                ((RectTransform)typeof(VerticalPanelSizer).GetField("rectTransform", Instance | Public | NonPublic).GetValue(targetMenuVerticalSizer)).anchorMax = (Vector2)typeof(VerticalPanelSizer).GetField("expandedAnchorMax", Instance | Public | NonPublic).GetValue(targetMenuVerticalSizer);
+            }
+            GYRLDualPanelDrawer graveyardRoleListDualDrawer = __instance.GraveyardRoleListDualDrawer;
+            typeof(GYRLDualPanelDrawer).GetField("roleListShown_", Instance | Public | NonPublic).SetValue(graveyardRoleListDualDrawer, false);
+            typeof(GYRLDualPanelDrawer).GetField("roleListMidShown_", Instance | Public | NonPublic).SetValue(graveyardRoleListDualDrawer, false);
+            graveyardRoleListDualDrawer.roleListRectTransform.anchoredPosition = (Vector2)typeof(GYRLDualPanelDrawer).GetField("roleListClosedPosition", Instance | Public | NonPublic).GetValue(graveyardRoleListDualDrawer);
+            typeof(GYRLDualPanelDrawer).GetField("graveyardShown_", Instance | Public | NonPublic).SetValue(graveyardRoleListDualDrawer, false);
+            graveyardRoleListDualDrawer.graveyardRectTransform.anchoredPosition = (Vector2)typeof(GYRLDualPanelDrawer).GetField("graveyardClosedPosition", Instance | Public | NonPublic).GetValue(graveyardRoleListDualDrawer);
+            typeof(GYRLDualPanelDrawer).GetMethod("SetTabStates", Instance | Public | NonPublic).Invoke(graveyardRoleListDualDrawer, null);
+            if (GlobalServiceLocator.UserService.Settings.AutoexpandEnabled)
             {
-                __instance.HideGraveyard();
-                timer.Dispose();
-            };
-            timer.Start();
+                VerticalPanelSizer chatVerticalSizer = __instance.ChatVerticalSizer;
+                typeof(VerticalPanelSizer).GetField("isExpanded_", Instance | Public | NonPublic).SetValue(chatVerticalSizer, true);
+                ((RectTransform)typeof(VerticalPanelSizer).GetField("rectTransform", Instance | Public | NonPublic).GetValue(chatVerticalSizer)).anchorMax = (Vector2)typeof(VerticalPanelSizer).GetField("expandedAnchorMax", Instance | Public | NonPublic).GetValue(chatVerticalSizer);
+            }
         }
     }
 }

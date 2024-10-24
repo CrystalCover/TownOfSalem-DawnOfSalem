@@ -8,7 +8,7 @@ using static System.Reflection.BindingFlags;
 namespace Eca.DawnOfSalem
 {
     [HarmonyPatch(typeof(GameRulesService), nameof(GameRulesService.Load))]
-    internal class RoleListFixer
+    internal class InGameRoleListFixer
     {
         private static ILocalizationService LocalizationService => GlobalServiceLocator.LocalizationService;
 

@@ -1,17 +1,11 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 
 namespace Eca.DawnOfSalem
 {
+    //[HarmonyPatch(typeof(BaseHomeSceneController))]
     internal class StoryAndPatchNotesOnHomeScreen
     {
-        //[HarmonyPatch(typeof(BaseHomeSceneController))]
-        private class BaseHomeSceneControllerFix
-        {
-        }
-
-        //[HarmonyPatch(typeof(BaseLoginSceneController))]
-        private class BaseLoginSceneControllerFix
-        {
-        }
+        //Icon_ReadTheStory
+        //Icon_ReadPatchNotes
     }
 }

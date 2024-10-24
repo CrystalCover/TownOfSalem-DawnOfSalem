@@ -4,12 +4,10 @@ using static System.Reflection.BindingFlags;
 
 namespace Eca.DawnOfSalem
 {
-    [HarmonyPatch(typeof(BigGameSceneUIController))]
+    [HarmonyPatch(typeof(BigGameSceneUIController), "HandleServerOnFirstDayTransition")]
     internal class PanelsHider
     {
-        [HarmonyPatch("HandleServerOnFirstDayTransition")]
-        [HarmonyPostfix]
-        private static void HandleServerOnFirstDayTransition(BigGameSceneUIController __instance)
+        private static void Postfix(BigGameSceneUIController __instance)
         {
             GamePanelDrawer roleCardDrawer = __instance.RoleCardDrawer;
             typeof(GamePanelDrawer).GetField("shown", Instance | Public | NonPublic).SetValue(roleCardDrawer, false);
@@ -22,9 +20,12 @@ namespace Eca.DawnOfSalem
                 ((RectTransform)typeof(VerticalPanelSizer).GetField("rectTransform", Instance | Public | NonPublic).GetValue(targetMenuVerticalSizer)).anchorMax = (Vector2)typeof(VerticalPanelSizer).GetField("expandedAnchorMax", Instance | Public | NonPublic).GetValue(targetMenuVerticalSizer);
             }
             GYRLDualPanelDrawer graveyardRoleListDualDrawer = __instance.GraveyardRoleListDualDrawer;
-            typeof(GYRLDualPanelDrawer).GetField("roleListShown_", Instance | Public | NonPublic).SetValue(graveyardRoleListDualDrawer, false);
-            typeof(GYRLDualPanelDrawer).GetField("roleListMidShown_", Instance | Public | NonPublic).SetValue(graveyardRoleListDualDrawer, false);
-            graveyardRoleListDualDrawer.roleListRectTransform.anchoredPosition = (Vector2)typeof(GYRLDualPanelDrawer).GetField("roleListClosedPosition", Instance | Public | NonPublic).GetValue(graveyardRoleListDualDrawer);
+            if (GlobalServiceLocator.GameService.ActiveGameState.GameMode.LobbyType != LobbyType.Custom)
+            {
+                typeof(GYRLDualPanelDrawer).GetField("roleListShown_", Instance | Public | NonPublic).SetValue(graveyardRoleListDualDrawer, false);
+                typeof(GYRLDualPanelDrawer).GetField("roleListMidShown_", Instance | Public | NonPublic).SetValue(graveyardRoleListDualDrawer, false);
+                graveyardRoleListDualDrawer.roleListRectTransform.anchoredPosition = (Vector2)typeof(GYRLDualPanelDrawer).GetField("roleListClosedPosition", Instance | Public | NonPublic).GetValue(graveyardRoleListDualDrawer);
+            }
             typeof(GYRLDualPanelDrawer).GetField("graveyardShown_", Instance | Public | NonPublic).SetValue(graveyardRoleListDualDrawer, false);
             graveyardRoleListDualDrawer.graveyardRectTransform.anchoredPosition = (Vector2)typeof(GYRLDualPanelDrawer).GetField("graveyardClosedPosition", Instance | Public | NonPublic).GetValue(graveyardRoleListDualDrawer);
             typeof(GYRLDualPanelDrawer).GetMethod("SetTabStates", Instance | Public | NonPublic).Invoke(graveyardRoleListDualDrawer, null);

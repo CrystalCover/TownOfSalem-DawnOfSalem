@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +9,8 @@ using static System.String;
 
 namespace Eca.DawnOfSalem
 {
-    [HarmonyPatch(typeof(GameSceneChatListener))]
-    internal class InvestigatorResultsFixer
+    [HarmonyPatch(typeof(GameSceneChatListener), "HandleOnStringTableMessage")]
+    internal class InvestigatorResultsAdjuster
     {
         private static IGameService GameService => GlobalServiceLocator.GameService;
 
@@ -145,9 +145,7 @@ namespace Eca.DawnOfSalem
             return roleNames;
         }
 
-        [HarmonyPatch("HandleOnStringTableMessage")]
-        [HarmonyPrefix]
-        private static bool HandleOnStringTableMessage(GameSceneChatListener __instance, int id)
+        private static bool Prefix(GameSceneChatListener __instance, int id)
         {
             List<string> roles;
             switch (id)

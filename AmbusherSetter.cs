@@ -1,11 +1,11 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using System.Collections.Generic;
 using static CustomGameSetup.Role;
 
 namespace Eca.DawnOfSalem
 {
-    [HarmonyPatch(typeof(IGameService))]
-    internal class AmbusherTagger
+    [HarmonyPatch(typeof(IGameService), "RaiseOnAmbusherNightAbility")]
+    internal class AmbusherSetter
     {
         private static IGameService GameService => GlobalServiceLocator.GameService;
 
@@ -17,9 +17,7 @@ namespace Eca.DawnOfSalem
 
         private static Dictionary<int, Role> Roles => ActiveGameRules.Roles;
 
-        [HarmonyPatch("RaiseOnAmbusherNightAbility")]
-        [HarmonyPostfix]
-        private static void RaiseOnAmbusherNightAbility(int position)
+        private static void Postfix(int position)
         {
             if (Players[position].IsAlive)
                 Players[position].CurrentRole = Roles[(int)AMBUSHER];

@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Eca.DawnOfSalem
 {
     [HarmonyPatch(typeof(GameSceneChatListener))]
-    internal class DeathAnnouncementFixer
+    internal class DeathAnnouncementsInChatBox
     {
         private static IEnumerator RevealHowDied(GameSceneChatListener __instance, List<ChatMessage> chatLogKilledHowMessages)
         {

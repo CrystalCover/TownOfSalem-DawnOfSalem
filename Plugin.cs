@@ -1,4 +1,4 @@
-﻿using BepInEx;
+using BepInEx;
 using HarmonyLib;
 using static System.Reflection.BindingFlags;
 
@@ -17,12 +17,10 @@ namespace Eca.DawnOfSalem
 
         private void Awake() => Harmony.PatchAll();
 
-        [HarmonyPatch(typeof(LobbySceneChatListener))]
+        [HarmonyPatch(typeof(LobbySceneChatListener), "HandleServerOnHowManyPlayersAndGames")]
         private class Reporter
         {
-            [HarmonyPatch("HandleServerOnHowManyPlayersAndGames")]
-            [HarmonyPostfix]
-            private static void HandleServerOnHowManyPlayersAndGames(LobbySceneChatListener __instance)
+            private static void Postfix(LobbySceneChatListener __instance)
             {
                 ChatController chatController = (ChatController)typeof(LobbySceneChatListener).GetField("chatController", Instance | Public | NonPublic).GetValue(__instance);
                 chatController.AddMessage("<color=#631631>Dawn of Salem</color>");

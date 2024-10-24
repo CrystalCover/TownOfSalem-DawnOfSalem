@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,7 +7,7 @@ using static System.Reflection.BindingFlags;
 
 namespace Eca.DawnOfSalem
 {
-    [HarmonyPatch(typeof(GameRulesService))]
+    [HarmonyPatch(typeof(GameRulesService), nameof(GameRulesService.Load))]
     internal class RoleListFixer
     {
         private static ILocalizationService LocalizationService => GlobalServiceLocator.LocalizationService;
@@ -20,9 +20,7 @@ namespace Eca.DawnOfSalem
 
         private static Dictionary<int, List<Role>> RandomRoles => GameRules.RandomRoles;
 
-        [HarmonyPatch("Load")]
-        [HarmonyPostfix]
-        private static void Load()
+        private static void Postfix()
         {
             Dictionary<string, string> stringTable = (Dictionary<string, string>)typeof(LocalizationService).GetField("stringTable_", Instance | Public | NonPublic).GetValue(LocalizationService);
             bool isSpanish = LocalizationService.GetUILanguageId() == 3;

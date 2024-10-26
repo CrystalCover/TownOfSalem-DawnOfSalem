@@ -5,7 +5,7 @@ using static System.Reflection.BindingFlags;
 namespace Eca.DawnOfSalem
 {
     [HarmonyPatch(typeof(BigGameSceneUIController), "HandleServerOnFirstDayTransition")]
-    internal class PanelsHider
+    internal class RoleCardRoleListGraveyardHider
     {
         private static void Postfix(BigGameSceneUIController __instance)
         {

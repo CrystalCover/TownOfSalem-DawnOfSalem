@@ -5,7 +5,7 @@ using static CustomGameSetup.Role;
 namespace Eca.DawnOfSalem
 {
     [HarmonyPatch(typeof(IGameService), "RaiseOnAmbusherNightAbility")]
-    internal class AmbusherSetter
+    internal class AmbusherTagger
     {
         private static IGameService GameService => GlobalServiceLocator.GameService;
 

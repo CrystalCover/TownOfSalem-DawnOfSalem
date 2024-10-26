@@ -23,12 +23,12 @@ namespace Eca.DawnOfSalem
                 if (__instance.FilterToggle.isOn)
                 {
                     chatMessage.Highlight.SetActive(false);
-                    chatMessage.gameObject.SetActive((chatMessage.PositionNumber == __instance.PositionFilter) || ((chatMessage.PositionNumber == -1) && (chatMessage.Data.Text.Contains(string.Format(StringUtils.GetPlayerSpriteTag(__instance.PositionFilter - 1))) || new[] { "GUI_DAY_NUMBER", "GUI_NIGHT_NUMBER" }.Where(message => chatMessage.Data.Text.Contains(__instance.l10n(message))).Any())));
+                    chatMessage.gameObject.SetActive((chatMessage.PositionNumber == __instance.PositionFilter) || ((chatMessage.PositionNumber == -1) && (((string)typeof(ChatMessage).GetField("m_textWithPlayerSpriteTag", Instance | Public | NonPublic).GetValue(chatMessage.Data)).Contains(string.Format(StringUtils.GetPlayerSpriteTag(__instance.PositionFilter - 1))) || new[] { "GUI_DAY_NUMBER", "GUI_NIGHT_NUMBER" }.Where(message => chatMessage.Data.Text.Contains(__instance.l10n(message))).Any())));
                 }
                 else
                 {
                     chatMessage.gameObject.SetActive(true);
-                    chatMessage.Highlight.SetActive((chatMessage.PositionNumber == __instance.PositionFilter) || (chatMessage.PositionNumber == -1 && chatMessage.Data.Text.Contains(string.Format(StringUtils.GetPlayerSpriteTag(__instance.PositionFilter - 1)))));
+                    chatMessage.Highlight.SetActive((chatMessage.PositionNumber == __instance.PositionFilter) || (chatMessage.PositionNumber == -1 && ((string)typeof(ChatMessage).GetField("m_textWithPlayerSpriteTag", Instance | Public | NonPublic).GetValue(chatMessage.Data)).Contains(string.Format(StringUtils.GetPlayerSpriteTag(__instance.PositionFilter - 1)))));
                 }
             typeof(ChatLogController).GetMethod("ScrollToBottom", Instance | Public | NonPublic).Invoke(__instance, null);
             return false;

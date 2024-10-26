@@ -20,11 +20,7 @@ namespace Eca.DawnOfSalem
         [HarmonyPatch(typeof(LobbySceneChatListener), "HandleServerOnHowManyPlayersAndGames")]
         private class Reporter
         {
-            private static void Postfix(LobbySceneChatListener __instance)
-            {
-                ChatController chatController = (ChatController)typeof(LobbySceneChatListener).GetField("chatController", Instance | Public | NonPublic).GetValue(__instance);
-                chatController.AddMessage("<color=#631631>Dawn of Salem</color>");
-            }
+            private static void Postfix(LobbySceneChatListener __instance) => ((ChatController)typeof(LobbySceneChatListener).GetField("chatController", Instance | Public | NonPublic).GetValue(__instance)).AddMessage("<color=#631631>Dawn of Salem</color>");
         }
     }
 }

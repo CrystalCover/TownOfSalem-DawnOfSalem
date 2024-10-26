@@ -61,26 +61,36 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>D:\SteamLibrary\steamapps\common\Town of Salem\TownOfSalem_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\SteamLibrary\steamapps\common\Town of Salem\TownOfSalem_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>D:\SteamLibrary\steamapps\common\Town of Salem\TownOfSalem_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AmbusherSetter.cs" />
+    <Compile Include="AmbusherTagger.cs" />
     <Compile Include="AutoLogin.cs" />
     <Compile Include="BlackmailerSelfHearingFixer.cs" />
     <Compile Include="DeathAnnouncementsInChatBox.cs" />
-    <Compile Include="FixedLobbyRoleList.cs" />
+    <Compile Include="FixedLobbyRoleLists.cs" />
     <Compile Include="FriendStatusNotifier.cs" />
     <Compile Include="FullMoonNoticeHider.cs" />
+    <Compile Include="InGameMessageFilterEnhancer.cs" />
     <Compile Include="InvestigatorResultsAdjuster.cs" />
+    <Compile Include="JudgementVotesSorter.cs" />
     <Compile Include="NonSteamLoginFixer.cs" />
-    <Compile Include="NameEnhancers.cs" />
-    <Compile Include="PanelsHider.cs" />
+    <Compile Include="MoreExtendedPlayerNumbers.cs" />
+    <Compile Include="RoleCardRoleListGraveyardHider.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="InGameRoleListFixer.cs" />
     <Compile Include="StoryAndPatchNotesOnHomeScreen.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Icon_ReadPatchNotes.png" />
+    <EmbeddedResource Include="Icon_ReadTheStory.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

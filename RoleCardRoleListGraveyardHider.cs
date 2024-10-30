@@ -9,11 +9,12 @@ namespace Eca.DawnOfSalem
     {
         private static void Postfix(BigGameSceneUIController __instance)
         {
+            bool autoExpandEnabled = GlobalServiceLocator.UserService.Settings.AutoexpandEnabled;
             GamePanelDrawer roleCardDrawer = __instance.RoleCardDrawer;
             typeof(GamePanelDrawer).GetField("shown", Instance | Public | NonPublic).SetValue(roleCardDrawer, false);
             ((RectTransform)typeof(GamePanelDrawer).GetField("rectTransform", Instance | Public | NonPublic).GetValue(roleCardDrawer)).anchoredPosition = (Vector2)typeof(GamePanelDrawer).GetField("closedPosition", Instance | Public | NonPublic).GetValue(roleCardDrawer);
             __instance.RoleCardMaximizeTab.SetActive(true);
-            if (GlobalServiceLocator.UserService.Settings.AutoexpandEnabled)
+            if (autoExpandEnabled)
             {
                 VerticalPanelSizer targetMenuVerticalSizer = __instance.TargetMenuVerticalSizer;
                 typeof(VerticalPanelSizer).GetField("isExpanded_", Instance | Public | NonPublic).SetValue(targetMenuVerticalSizer, true);
@@ -29,7 +30,7 @@ namespace Eca.DawnOfSalem
             typeof(GYRLDualPanelDrawer).GetField("graveyardShown_", Instance | Public | NonPublic).SetValue(graveyardRoleListDualDrawer, false);
             graveyardRoleListDualDrawer.graveyardRectTransform.anchoredPosition = (Vector2)typeof(GYRLDualPanelDrawer).GetField("graveyardClosedPosition", Instance | Public | NonPublic).GetValue(graveyardRoleListDualDrawer);
             typeof(GYRLDualPanelDrawer).GetMethod("SetTabStates", Instance | Public | NonPublic).Invoke(graveyardRoleListDualDrawer, null);
-            if (GlobalServiceLocator.UserService.Settings.AutoexpandEnabled)
+            if (autoExpandEnabled)
             {
                 VerticalPanelSizer chatVerticalSizer = __instance.ChatVerticalSizer;
                 typeof(VerticalPanelSizer).GetField("isExpanded_", Instance | Public | NonPublic).SetValue(chatVerticalSizer, true);

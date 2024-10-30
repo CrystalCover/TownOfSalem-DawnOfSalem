@@ -70,7 +70,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AmbusherTagger.cs" />
+    <Compile Include="AmbusherAssigner.cs" />
     <Compile Include="AutoLogin.cs" />
     <Compile Include="BlackmailerSelfHearingFixer.cs" />
     <Compile Include="DeathAnnouncementsInChatBox.cs" />

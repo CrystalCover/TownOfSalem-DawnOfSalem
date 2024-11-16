@@ -41,5 +41,11 @@ namespace Eca.DawnOfSalem
             FriendService.OnFriendUpdated -= OnFriendUpdated;
             NotificationsToasterMasterController = null;
         }
+
+        [HarmonyPatch(typeof(NotificationToasterController), nameof(NotificationToasterController.HandleClickActionButton))]
+        private class FriendStatusNotifierExtra
+        {
+            private static void Prefix(NotificationToasterController __instance) => typeof(ToasterData).GetField("m_toasterDataType", Instance | Public | NonPublic).SetValue(typeof(NotificationToasterController).GetField("m_toasterData", Instance | Public | NonPublic).GetValue(__instance), ToasterDataType.FriendChatMessage);
+        }
     }
 }

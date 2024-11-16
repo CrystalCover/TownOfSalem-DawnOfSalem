@@ -26,7 +26,7 @@ namespace Eca.DawnOfSalem
         {
             List<CustomGameSetup.Role> randomRoles = new List<CustomGameSetup.Role>() { roleEnum };
             Role role = Roles[(int)roleEnum];
-            string roleFaction = Empty;
+            string roleFaction;
             switch ((Factions)role.Faction)
             {
                 case Town:
@@ -43,7 +43,7 @@ namespace Eca.DawnOfSalem
                     break;
             }
             string roleAlignment = Empty;
-            bool covenOnly = false;
+            bool covenOnly = role.CovenOnly;
             switch (roleEnum)
             {
                 case BODYGUARD:
@@ -113,25 +113,26 @@ namespace Eca.DawnOfSalem
                     break;
                 default:
                     covenOnly = roleEnum.ToString().StartsWith("COVEN_");
-                    if (!((covenOnly ? "COVEN_" : Empty) + roleEnum.ToString()).StartsWith("RANDOM_"))
+                    if (!roleEnum.ToString().StartsWith((covenOnly ? "COVEN_" : Empty) + "RANDOM_") && roleEnum.ToString() != (covenOnly ? "COVEN_" : Empty) + "ANY")
                         roleAlignment = roleEnum.ToString().TrimStart(((covenOnly ? "COVEN_" : Empty) + roleFaction + "_").ToCharArray());
                     randomRoles.Remove(roleEnum);
                     break;
             }
-            if (!role.CovenOnly && !covenOnly)
+            CustomGameSetup.Role roleName;
+            if (!covenOnly)
             {
-                if (!IsNullOrEmpty(roleFaction))
-                    randomRoles.Add((CustomGameSetup.Role)Enum.Parse(typeof(CustomGameSetup.Role), "RANDOM_" + roleFaction));
-                if (!IsNullOrEmpty(roleAlignment) && role.Faction != (int)Vampire)
-                    randomRoles.Add((CustomGameSetup.Role)Enum.Parse(typeof(CustomGameSetup.Role), roleFaction + "_" + roleAlignment));
+                if (!IsNullOrEmpty(roleFaction) && Enum.TryParse("RANDOM_" + roleFaction, out roleName))
+                    randomRoles.Add(roleName);
+                if (!IsNullOrEmpty(roleAlignment) && Enum.TryParse(roleFaction + "_" + roleAlignment, out roleName))
+                    randomRoles.Add(roleName);
                 randomRoles.Add(ANY);
                 if (roleEnum == WITCH)
                     return randomRoles;
             }
-            if (!IsNullOrEmpty(roleFaction))
-                randomRoles.Add((CustomGameSetup.Role)Enum.Parse(typeof(CustomGameSetup.Role), "COVEN_RANDOM_" + roleFaction));
-            if (!IsNullOrEmpty(roleAlignment) && (roleFaction != "COVEN" || roleAlignment != "EVIL"))
-                randomRoles.Add((CustomGameSetup.Role)Enum.Parse(typeof(CustomGameSetup.Role), "COVEN_" + roleFaction + "_" + roleAlignment));
+            if (!IsNullOrEmpty(roleFaction) && Enum.TryParse("COVEN_RANDOM_" + roleFaction, out roleName))
+                randomRoles.Add(roleName);
+            if (!IsNullOrEmpty(roleAlignment) && Enum.TryParse("COVEN_" + roleFaction + "_" + roleAlignment, out roleName))
+                randomRoles.Add(roleName);
             randomRoles.Add(COVEN_ANY);
             return randomRoles;
         }

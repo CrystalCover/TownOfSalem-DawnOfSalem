@@ -197,7 +197,7 @@ namespace Eca.DawnOfSalem
             if (roles.Count == 2)
                 investigatorResults = investigatorResults.Replace(", ", or);
             else if (roles.Count > 2)
-                investigatorResults = investigatorResults.Insert(investigatorResults.LastIndexOf(","), or.TrimEnd());
+                investigatorResults = investigatorResults.Insert(investigatorResults.LastIndexOf(", ") + 2, or.TrimStart());
             investigatorFeedback = Format(investigatorFeedback, investigatorResults);
             __instance.chatBox.AddMessage(investigatorFeedback);
             __instance.chatLog.AddMessage(investigatorFeedback);

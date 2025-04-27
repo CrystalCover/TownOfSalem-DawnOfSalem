@@ -11,6 +11,8 @@ using static System.Reflection.BindingFlags;
 using static System.String;
 using static System.Text.Encoding;
 using static UnityEngine.PlayerPrefs;
+using System;
+using System.Diagnostics;
 
 namespace Eca.DawnOfSalem
 {
@@ -44,7 +46,7 @@ namespace Eca.DawnOfSalem
             if ((scene != Login && scene != BigLogin) || AutoLoggedIn)
                 return true;
             AutoLoggedIn = true;
-            if (!HasKey(UsernameKey) || IsNullOrEmpty(Username) || !HasKey(PasswordKey) || IsNullOrEmpty(Password))
+            if (!HasKey(UsernameKey) || IsNullOrEmpty(Username) || !HasKey(PasswordKey) || IsNullOrEmpty(Password) || Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length > 1)
                 return true;
             if (SteamService.IsInitialized)
                 UserService.LoginViaSteamUsername(SteamService.GetUserSteamID(), Username, Password, SteamUsernamePassword, __instance.VersionInfo.build, GetClientXmlFlagSetting(AutoreportHostServerDisconnects));

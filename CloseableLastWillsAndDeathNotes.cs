@@ -39,16 +39,16 @@ namespace Eca.DawnOfSalem
         //[HarmonyPrefix]
         private static void HandleClickNotepad(BaseGameSceneUIController __instance) => CloseLastWillsDeathNotesNotepad(__instance, true);
 
-        [HarmonyPatch(nameof(BaseGameSceneUIController.ShowLastWill))]
-        [HarmonyPrefix]
+        //[HarmonyPatch(nameof(BaseGameSceneUIController.ShowLastWill))]
+        //[HarmonyPrefix]
         private static void ShowLastWill(BaseGameSceneUIController __instance, LastWillController willController, ref bool closeable)
         {
             //CloseLastWillsDeathNotesNotepad(__instance, willController != __instance.WhoDiedLastWill);
             closeable = true;
         }
 
-        [HarmonyPatch(nameof(BaseGameSceneUIController.ShowDeathNote))]
-        [HarmonyPrefix]
+        //[HarmonyPatch(nameof(BaseGameSceneUIController.ShowDeathNote))]
+        //[HarmonyPrefix]
         private static void ShowDeathNote(BaseGameSceneUIController __instance, ref bool closeable)
         {
             //CloseLastWillsDeathNotesNotepad(__instance, closeable);
